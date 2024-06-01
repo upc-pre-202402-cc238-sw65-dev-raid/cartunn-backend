@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @Table(name = "orders")
-public class Order extends AuditableAbstractAggregateRoot<Order> {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
