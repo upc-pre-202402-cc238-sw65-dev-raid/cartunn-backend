@@ -8,7 +8,6 @@ import com.thecoders.cartunnbackend.payment.domain.services.CartCommandService;
 import com.thecoders.cartunnbackend.payment.infrastructure.persistence.jpa.repositories.CartRepository;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -19,9 +18,6 @@ public class CartCommandServiceImpl implements CartCommandService {
 
     @Override
     public Long handle(CreateCartCommand command) {
-        if (cartRepository.existsById(command.id())) {
-            throw new IllegalArgumentException("Cart with same id already exists");
-        }
         var cart = new Cart(command);
         try {
             cartRepository.save(cart);
