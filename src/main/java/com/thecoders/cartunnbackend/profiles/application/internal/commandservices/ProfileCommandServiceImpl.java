@@ -8,7 +8,6 @@ import com.thecoders.cartunnbackend.profiles.infrastructure.jpa.persistence.Prof
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
 @Service
 public class ProfileCommandServiceImpl implements ProfileCommandService {
     private final ProfileRepository profileRepository;

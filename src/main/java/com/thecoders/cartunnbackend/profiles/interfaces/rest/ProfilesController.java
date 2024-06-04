@@ -1,6 +1,5 @@
 package com.thecoders.cartunnbackend.profiles.interfaces.rest;
 
-
 import com.thecoders.cartunnbackend.profiles.domain.model.commands.UpdateProfileCommand;
 import com.thecoders.cartunnbackend.profiles.domain.model.queries.GetAllProfilesQuery;
 import com.thecoders.cartunnbackend.profiles.domain.model.queries.GetProfileByIdQuery;
