@@ -27,4 +27,3 @@ public abstract class AuditableAbstractAggregateRoot<T extends AbstractAggregate
     @Column(nullable = false)
     private Date updatedAt;
 }
-
