@@ -25,7 +25,7 @@ public class CartunnBackendApplication {
                 @Override
                 public void addCorsMappings(CorsRegistry registry) {
                     registry.addMapping("/**")
-                            .allowedOrigins("*")
+                            .allowedOrigins("https://cartunn-frontend.netlify.app", "http://localhost:4200")
                             .allowedMethods("HEAD","GET", "POST", "PUT", "DELETE","PATCH")
                             .allowedHeaders("*")
                             .allowCredentials(true);
