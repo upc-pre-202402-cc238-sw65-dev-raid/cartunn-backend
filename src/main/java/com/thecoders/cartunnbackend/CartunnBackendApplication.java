@@ -24,7 +24,11 @@ public class CartunnBackendApplication {
             return new WebMvcConfigurer() {
                 @Override
                 public void addCorsMappings(CorsRegistry registry) {
-                    registry.addMapping("/**").allowedMethods("HEAD","GET", "POST", "PUT", "DELETE","PATCH");
+                    registry.addMapping("/**")
+                            .allowedOrigins("*")
+                            .allowedMethods("HEAD","GET", "POST", "PUT", "DELETE","PATCH")
+                            .allowedHeaders("*")
+                            .allowCredentials(true);
                 }
             };
         }
