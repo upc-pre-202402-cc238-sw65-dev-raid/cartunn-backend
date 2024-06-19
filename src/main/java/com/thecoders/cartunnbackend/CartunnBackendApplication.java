@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableJpaAuditing
-
 public class CartunnBackendApplication {
 
     public static void main(String[] args) {
