@@ -21,7 +21,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     @Override
     public Long handle(CreateOrderCommand command) {
         if (purchasingOrderRepository.existsByName(command.name())) {
-            throw new IllegalArgumentException("Order with same order already exists");
+            throw new IllegalArgumentException("Notification with same order already exists");
         }
         var order = new Order(command);
         try {
@@ -35,11 +35,11 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     @Override
     public Optional<Order> handle(UpdateOrderCommand command) {
         if (purchasingOrderRepository.existsByNameAndIdIsNot(command.name(), command.id())) {
-            throw new IllegalArgumentException("Order with same order already exists");
+            throw new IllegalArgumentException("Notification with same order already exists");
         }
         var result = purchasingOrderRepository.findById(command.id());
         if (result.isEmpty()) {
-            throw new IllegalArgumentException("Order does not exist");
+            throw new IllegalArgumentException("Notification does not exist");
         }
         var orderToUpdate = result.get();
         try {
@@ -54,7 +54,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
     @Override
     public void handle(DeleteOrderCommand command) {
         if (!purchasingOrderRepository.existsById(command.orderId())) {
-            throw new IllegalArgumentException("Order does not exist");
+            throw new IllegalArgumentException("Notification does not exist");
         }
         try {
             purchasingOrderRepository.deleteById(command.orderId());

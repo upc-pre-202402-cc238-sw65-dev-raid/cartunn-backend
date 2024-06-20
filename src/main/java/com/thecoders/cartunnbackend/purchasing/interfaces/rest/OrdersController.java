@@ -23,7 +23,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = "/api/v1/orders", produces = APPLICATION_JSON_VALUE)
-@Tag(name = "Orders", description = "Order Management Endpoints")
+@Tag(name = "Orders", description = "Notification Management Endpoints")
 public class OrdersController {
     private final OrderCommandService orderCommandService;
     private final OrderQueryService orderQueryService;
@@ -80,6 +80,6 @@ public class OrdersController {
     public ResponseEntity<?> deleteOrder(@PathVariable Long orderId) {
         var deleteOrderCommand = new DeleteOrderCommand(orderId);
         orderCommandService.handle(deleteOrderCommand);
-        return ResponseEntity.ok("Order deleted successfully");
+        return ResponseEntity.ok("Notification deleted successfully");
     }
 }
