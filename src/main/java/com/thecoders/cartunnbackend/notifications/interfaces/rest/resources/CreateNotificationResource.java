@@ -1,4 +1,8 @@
 package com.thecoders.cartunnbackend.notifications.interfaces.rest.resources;
 
-public record CreateNotificationResource(String type, String description) {
+import jakarta.validation.constraints.NotNull;
+
+public record CreateNotificationResource(
+        @NotNull Long orderId,
+        String type, String description) {
 }

@@ -6,6 +6,6 @@ import com.thecoders.cartunnbackend.notifications.interfaces.rest.resources.Crea
 public class CreateNotificationCommandFromResourceAssembler {
 
     public static CreateNotificationCommand toCommandFromResource(CreateNotificationResource resource) {
-        return new CreateNotificationCommand(resource.type(), resource.description());
+        return new CreateNotificationCommand(resource.orderId(),resource.type(), resource.description());
     }
 }

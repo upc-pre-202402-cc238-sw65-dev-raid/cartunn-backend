@@ -6,6 +6,8 @@ import com.thecoders.cartunnbackend.notifications.domain.model.commands.DeleteNo
 import com.thecoders.cartunnbackend.notifications.domain.model.commands.UpdateNotificationCommand;
 import com.thecoders.cartunnbackend.notifications.domain.services.NotificationCommandService;
 import com.thecoders.cartunnbackend.notifications.infrastructure.persitence.jpa.repositories.NotificationRepository;
+import com.thecoders.cartunnbackend.product.domain.model.commands.RequestFavoriteCommand;
+import com.thecoders.cartunnbackend.purchasing.infrastructure.persitence.jpa.repositories.PurchasingOrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,17 +15,20 @@ import java.util.Optional;
 @Service
 public class NotificationCommandServiceImpl implements NotificationCommandService {
     private final NotificationRepository notificationRepository;
-
-    public NotificationCommandServiceImpl(NotificationRepository notificationRepository) {
+    private final PurchasingOrderRepository purchasingOrderRepository;
+    public NotificationCommandServiceImpl(NotificationRepository notificationRepository, PurchasingOrderRepository purchasingOrderRepository) {
         this.notificationRepository = notificationRepository;
+        this.purchasingOrderRepository = purchasingOrderRepository;
     }
 
     @Override
     public Long handle(CreateNotificationCommand command) {
+        var order = purchasingOrderRepository.findById(command.orderId())
+                .orElseThrow(() -> new IllegalArgumentException("Order does not exist"));
         if (notificationRepository.existsByType(command.type())) {
-            throw new IllegalArgumentException("Notification with same notification already exists");
+            throw new IllegalArgumentException("Notification with same type already exists");
         }
-        var notification = new Notification(command);
+        var notification = new Notification(command, order);
         try {
             notificationRepository.save(notification);
             return notification.getId();
@@ -31,6 +36,7 @@ public class NotificationCommandServiceImpl implements NotificationCommandServic
             throw new IllegalArgumentException("Error while saving notification: " + e.getMessage());
         }
     }
+
 
     @Override
     public Optional<Notification> handle(UpdateNotificationCommand command) {

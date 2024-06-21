@@ -4,6 +4,7 @@ package com.thecoders.cartunnbackend.notifications.interfaces.rest;
 import com.thecoders.cartunnbackend.notifications.domain.model.commands.DeleteNotificationCommand;
 import com.thecoders.cartunnbackend.notifications.domain.model.queries.GetAllNotificationsQuery;
 import com.thecoders.cartunnbackend.notifications.domain.model.queries.GetNotificationByIdQuery;
+import com.thecoders.cartunnbackend.notifications.domain.model.queries.GetNotificationByOrderIdQuery;
 import com.thecoders.cartunnbackend.notifications.domain.services.NotificationCommandService;
 import com.thecoders.cartunnbackend.notifications.domain.services.NotificationQueryService;
 import com.thecoders.cartunnbackend.notifications.interfaces.rest.resources.CreateNotificationResource;
@@ -36,15 +37,13 @@ public class NotificationsController {
     public ResponseEntity<NotificationResource> createNotification(@RequestBody CreateNotificationResource createNotificationResource) {
         var createNotificationCommand = CreateNotificationCommandFromResourceAssembler.toCommandFromResource(createNotificationResource);
         var notificationId = notificationCommandService.handle(createNotificationCommand);
-        if (notificationId == 0L) {
-            return ResponseEntity.badRequest().build();
-        }
-        var getNotificationByIdQuery = new GetNotificationByIdQuery(notificationId);
-        var notification = notificationQueryService.handle(getNotificationByIdQuery);
+       System.out.println("notificationId: " + notificationId);
+        var getNotificationByOrderIdQuery = new GetNotificationByOrderIdQuery(createNotificationResource.orderId());
+        var notification = notificationQueryService.handle(getNotificationByOrderIdQuery);
         if (notification.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        var notificationResource = NotificationResourceFromEntityAssembler.toResourceFromEntity(notification.get());
+        var notificationResource = NotificationResourceFromEntityAssembler.toResourceFromEntity(notification.get(0));
         return new ResponseEntity<>(notificationResource, HttpStatus.CREATED);
     }
 

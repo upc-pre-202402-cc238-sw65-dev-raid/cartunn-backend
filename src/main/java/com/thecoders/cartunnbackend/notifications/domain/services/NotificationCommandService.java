@@ -9,6 +9,5 @@ import java.util.Optional;
 public interface NotificationCommandService {
     Long handle(CreateNotificationCommand command);
     Optional<Notification> handle(UpdateNotificationCommand command);
-
     void handle(DeleteNotificationCommand command);
 }
