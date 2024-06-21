@@ -1,16 +1,15 @@
 package com.thecoders.cartunnbackend.payment.interfaces.rest;
 
+import com.thecoders.cartunnbackend.payment.domain.model.aggregates.CartProducts;
 import com.thecoders.cartunnbackend.payment.domain.model.commands.DeleteCartCommand;
-import com.thecoders.cartunnbackend.payment.domain.model.queries.GetAllCartsQuery;
-import com.thecoders.cartunnbackend.payment.domain.model.queries.GetCartByIdQuery;
+import com.thecoders.cartunnbackend.payment.domain.model.commands.DeleteCartProductsCommand;
+import com.thecoders.cartunnbackend.payment.domain.model.queries.*;
 import com.thecoders.cartunnbackend.payment.domain.services.CartCommandService;
+import com.thecoders.cartunnbackend.payment.domain.services.CartProductCommandService;
+import com.thecoders.cartunnbackend.payment.domain.services.CartProductQueryService;
 import com.thecoders.cartunnbackend.payment.domain.services.CartQueryService;
-import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.CartResource;
-import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.CreateCartResource;
-import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.UpdateCartResource;
-import com.thecoders.cartunnbackend.payment.interfaces.rest.transform.CartResourceFromEntityAssembler;
-import com.thecoders.cartunnbackend.payment.interfaces.rest.transform.CreateCartCommandFromResourceAssembler;
-import com.thecoders.cartunnbackend.payment.interfaces.rest.transform.UpdateCartCommandFromResourceAssembler;
+import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.*;
+import com.thecoders.cartunnbackend.payment.interfaces.rest.transform.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +25,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CartsController {
     private final CartCommandService cartCommandService;
     private final CartQueryService cartQueryService;
+    private final CartProductCommandService cartProductCommandService;
+    private final CartProductQueryService cartProductQueryService;
 
-    public CartsController(CartCommandService cartCommandService, CartQueryService cartQueryService) {
+    public CartsController(CartCommandService cartCommandService, CartQueryService cartQueryService,
+                           CartProductCommandService cartProductCommandService, CartProductQueryService cartProductQueryService) {
         this.cartCommandService = cartCommandService;
         this.cartQueryService = cartQueryService;
+        this.cartProductCommandService = cartProductCommandService;
+        this.cartProductQueryService = cartProductQueryService;
     }
     @PostMapping
     public ResponseEntity<CartResource> createCart(@RequestBody CreateCartResource createCartResource) {
@@ -78,5 +82,34 @@ public class CartsController {
         var deleteCartCommand = new DeleteCartCommand(cartId);
         cartCommandService.handle(deleteCartCommand);
         return ResponseEntity.ok("Cart deleted successfully");
+    }
+    @GetMapping
+    public ResponseEntity<List<CartProductResource>> getAllCartProducts() {
+        var getAllCartProductsQuery = new GetAllCartProductsQuery();
+        var carts = cartProductQueryService.handle(getAllCartProductsQuery);
+        var cartProdutsResources = carts.stream().map(CartProductResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(cartProdutsResources);
+    }
+    @DeleteMapping("/{cartId}/{productId}")
+    public ResponseEntity<?> deleteCartProduct(@PathVariable Long cartId, Long productId) {
+        var deleteCartProductsCommand = new DeleteCartProductsCommand(cartId,productId);
+        cartProductCommandService.handle(deleteCartProductsCommand);
+        return ResponseEntity.ok("CartProduct deleted successfully");
+    }
+    @PostMapping
+    public ResponseEntity<CartProductResource> createCartProduct(@RequestBody CreateCartProductResource createCartProductResource) {
+        var createCartProductCommand = CreateCartProductCommandFromResourceAssembler.toCommandFromResource(createCartProductResource);
+        CartProducts cartProducts = cartProductCommandService.handle(createCartProductCommand);
+        if (cartProducts.getCartId() == 0L) {
+            return ResponseEntity.badRequest().build();
+        }
+        var getCartProductByCartIdAndProductIdQuery = new GetCartProductbyCartIdAndProductIdQuery(cartProducts.getCartId(),cartProducts.getProductId());
+        var cartProduct = cartProductQueryService.handle(getCartProductByCartIdAndProductIdQuery);
+        if (cartProduct!=null) {
+            return ResponseEntity.badRequest().build();
+        }
+        var cartProductResource = CartProductResourceFromEntityAssembler.toResourceFromEntity(cartProduct);
+        return new ResponseEntity<>(cartProductResource, HttpStatus.CREATED);
+
     }
 }
