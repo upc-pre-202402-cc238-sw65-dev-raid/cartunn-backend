@@ -10,4 +10,4 @@ public class CartProductResourceFromEntityAssembler {
         return new CartProductResource(entity.getCartId(), entity.getProductId());
     }
 }
-}
+
