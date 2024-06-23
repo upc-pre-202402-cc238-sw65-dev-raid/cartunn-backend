@@ -8,11 +8,11 @@ public class PaymentResourceFromEntityAssembler {
     public static PaymentResource toResourceFromEntity(Payment entity){
         return new PaymentResource(
                 entity.getId(),
-                entity.getCard_number(),
-                entity.getExpiration_date(),
-                entity.getCard_holder(),
+                entity.getCardNumber(),
+                entity.getExpirationDate(),
+                entity.getCardHolder(),
                 entity.getCvc(),
-                entity.getMethod_pay()
+                entity.getMethodPay()
         );
     }
 }

@@ -2,68 +2,72 @@ package com.thecoders.cartunnbackend.payment.domain.model.aggregates;
 
 
 import com.thecoders.cartunnbackend.payment.domain.model.commands.CreatePaymentCommand;
+import com.thecoders.cartunnbackend.product.domain.model.aggregates.Product;
 import com.thecoders.cartunnbackend.productRefunds.domain.model.aggregates.ProductRefund;
 import com.thecoders.cartunnbackend.productRefunds.domain.model.commands.CreateProductRefundCommand;
+import com.thecoders.cartunnbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
 
 @Getter
 @Entity
-@Table(name = "payment")
-public class Payment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Payment  extends AuditableAbstractAggregateRoot<Payment> {
     @Column(name = "card_number", nullable = false)
-    private String card_number;
+    private String cardNumber;
 
     @Column(name = "expiration_date", nullable = false)
-    private String expiration_date;
+    private String expirationDate;
 
     @Column(name = "card_holder", nullable = false)
-    private String card_holder;
+    private String cardHolder;
 
     @Column(name = "cvc", nullable = false)
     private String cvc;
 
     @Column(name = "method_pay", nullable = false)
-    private String method_pay;
+    private String methodPay;
 
 
     public Payment(){
-        this.card_number = Strings.EMPTY;
-        this.expiration_date = Strings.EMPTY;
-        this.card_holder = Strings.EMPTY;
+        this.cardNumber = Strings.EMPTY;
+        this.expirationDate = Strings.EMPTY;
+        this.cardHolder = Strings.EMPTY;
         this.cvc = Strings.EMPTY;
-        this.method_pay = Strings.EMPTY;
+        this.methodPay = Strings.EMPTY;
     }
 
-    public Payment(String card_number,String expiration_date, String card_holder, String cvc, String method_pay){
+    public Payment(String cardNumber,
+                   String expirationDate,
+                   String cardHolder,
+                   String cvc, String methodPay){
         this();
-        this.card_number = card_number;
-        this.expiration_date = expiration_date;
-        this.card_holder = card_holder;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.cardHolder = cardHolder;
         this.cvc = cvc;
-        this.method_pay = method_pay;
+        this.methodPay = methodPay;
     }
 
     public Payment(CreatePaymentCommand command){
         this();
-        this.card_number = command.card_number();
-        this.expiration_date = command.expiration_date();
-        this.card_holder = command.card_holder();
+        this.cardNumber = command.cardNumber();
+        this.expirationDate = command.expirationDate();
+        this.cardHolder = command.cardHolder();
         this.cvc = command.cvc();
-        this.method_pay = command.method_pay();
+        this.methodPay = command.methodPay();
     }
 
-    public Payment updateInformation(String card_number,String expiration_date, String card_holder, String cvc, String method_pay){
-        this.card_number = card_number;
-        this.expiration_date = expiration_date;
-        this.card_holder = card_holder;
+    public Payment updateInformation(String cardNumber,
+                                     String expirationDate,
+                                     String cardHolder,
+                                     String cvc,
+                                     String methodPay){
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.cardHolder = cardHolder;
         this.cvc = cvc;
-        this.method_pay = method_pay;
+        this.methodPay = methodPay;
         return this;
     }
 

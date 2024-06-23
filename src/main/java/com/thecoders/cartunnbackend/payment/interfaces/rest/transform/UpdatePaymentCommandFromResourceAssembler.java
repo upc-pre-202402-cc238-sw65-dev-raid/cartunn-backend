@@ -6,11 +6,12 @@ import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.UpdatePaym
 
 public class UpdatePaymentCommandFromResourceAssembler {
     public static UpdatePaymentCommand toCommandFromResource(Long paymentId, UpdatePaymentResource resource){
-        return new UpdatePaymentCommand(paymentId, resource.card_number(),
-                resource.expiration_date(),
-                resource.card_holder(),
+        return new UpdatePaymentCommand(paymentId,
+                resource.cardNumber(),
+                resource.expirationDate(),
+                resource.cardHolder(),
                 resource.cvc(),
-                resource.method_pay());
+                resource.methodPay());
 
     }
 }

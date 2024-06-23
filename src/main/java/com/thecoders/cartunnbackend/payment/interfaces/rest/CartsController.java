@@ -1,12 +1,8 @@
 package com.thecoders.cartunnbackend.payment.interfaces.rest;
 
-import com.thecoders.cartunnbackend.payment.domain.model.aggregates.CartProducts;
 import com.thecoders.cartunnbackend.payment.domain.model.commands.DeleteCartCommand;
-import com.thecoders.cartunnbackend.payment.domain.model.commands.DeleteCartProductsCommand;
 import com.thecoders.cartunnbackend.payment.domain.model.queries.*;
 import com.thecoders.cartunnbackend.payment.domain.services.CartCommandService;
-import com.thecoders.cartunnbackend.payment.domain.services.CartProductCommandService;
-import com.thecoders.cartunnbackend.payment.domain.services.CartProductQueryService;
 import com.thecoders.cartunnbackend.payment.domain.services.CartQueryService;
 import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.*;
 import com.thecoders.cartunnbackend.payment.interfaces.rest.transform.*;
@@ -25,15 +21,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CartsController {
     private final CartCommandService cartCommandService;
     private final CartQueryService cartQueryService;
-    private final CartProductCommandService cartProductCommandService;
-    private final CartProductQueryService cartProductQueryService;
+    //private final CartProductCommandService cartProductCommandService;
+    //private final CartProductQueryService cartProductQueryService;
 
-    public CartsController(CartCommandService cartCommandService, CartQueryService cartQueryService,
-                           CartProductCommandService cartProductCommandService, CartProductQueryService cartProductQueryService) {
+    public CartsController(CartCommandService cartCommandService, CartQueryService cartQueryService) {
         this.cartCommandService = cartCommandService;
         this.cartQueryService = cartQueryService;
-        this.cartProductCommandService = cartProductCommandService;
-        this.cartProductQueryService = cartProductQueryService;
+        //this.cartProductCommandService = cartProductCommandService;
+        //this.cartProductQueryService = cartProductQueryService;
     }
     @PostMapping
     public ResponseEntity<CartResource> createCart(@RequestBody CreateCartResource createCartResource) {
@@ -83,7 +78,7 @@ public class CartsController {
         cartCommandService.handle(deleteCartCommand);
         return ResponseEntity.ok("Cart deleted successfully");
     }
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<List<CartProductResource>> getAllCartProducts() {
         var getAllCartProductsQuery = new GetAllCartProductsQuery();
         var carts = cartProductQueryService.handle(getAllCartProductsQuery);
@@ -111,5 +106,5 @@ public class CartsController {
         var cartProductResource = CartProductResourceFromEntityAssembler.toResourceFromEntity(cartProduct);
         return new ResponseEntity<>(cartProductResource, HttpStatus.CREATED);
 
-    }
+    }*/
 }

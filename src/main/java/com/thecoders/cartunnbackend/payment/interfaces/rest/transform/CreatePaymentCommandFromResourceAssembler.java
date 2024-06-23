@@ -7,11 +7,11 @@ import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.CreatePaym
 public class CreatePaymentCommandFromResourceAssembler {
     public static CreatePaymentCommand toCommandFromResource(CreatePaymentResource resource){
         return new CreatePaymentCommand(
-                resource.card_number(),
-                resource.expiration_date(),
-                resource.card_holder(),
+                resource.cardNumber(),
+                resource.expirationDate(),
+                resource.cardHolder(),
                 resource.cvc(),
-                resource.method_pay()
+                resource.methodPay()
         );
     }
 }

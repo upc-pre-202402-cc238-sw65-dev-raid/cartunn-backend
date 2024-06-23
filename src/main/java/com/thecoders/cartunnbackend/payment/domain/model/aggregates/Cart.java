@@ -15,9 +15,13 @@ import java.util.Set;
 public class Cart extends AuditableAbstractAggregateRoot<Cart>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Getter
+    @ManyToOne
+    @JoinColumn(name = "payment_id")
+    private Payment paymentId;
     @Column(name = "total", nullable = false)
-
     private BigDecimal total;
 
     @ManyToMany

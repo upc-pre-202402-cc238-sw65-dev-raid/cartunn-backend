@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment,Long> {
     Optional<Payment> findByCardHolder(String cardHolder);
-    boolean existsByCardHolderAndIdIsNot(String cardHolder, Long id);
+    boolean existsByCardHolderAndIdIsNot(String cardHolder, Long paymentId);
 
     boolean existsByCardHolder(String cardHolder);
 }

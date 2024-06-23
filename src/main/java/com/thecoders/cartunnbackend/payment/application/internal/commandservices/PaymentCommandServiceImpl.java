@@ -19,8 +19,8 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
     @Override
     public Long handle(CreatePaymentCommand command) {
-        if (paymentRepository.existsByCardHolder(command.card_holder())) {
-            throw new IllegalArgumentException("Payment with title " + command.card_holder() + " already exists");
+        if (paymentRepository.existsByCardHolder(command.cardHolder())) {
+            throw new IllegalArgumentException("Payment with title " + command.cardHolder() + " already exists");
         }
         var payment = new Payment(command);
         try {
@@ -34,16 +34,16 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
     @Override
     public Optional<Payment> handle(UpdatePaymentCommand command){
-        if(paymentRepository.existsByCardHolderAndIdIsNot(command.card_holder(), command.id())){
+        if(paymentRepository.existsByCardHolderAndIdIsNot(command.cardHolder(), command.paymentId())){
             throw new IllegalArgumentException("Profile with same payment already exists");
         }
-        var result = paymentRepository.findById(command.id());
+        var result = paymentRepository.findById(command.paymentId());
         if (result.isEmpty()){
             throw new IllegalArgumentException("Payment does not exist");
         }
         var paymentToUpdated = result.get();
         try {
-            paymentToUpdated.updateInformation(command.card_number(), command.expiration_date(), command.card_holder(),command.cvc(),command.method_pay());
+            paymentToUpdated.updateInformation(command.cardNumber(), command.expirationDate(), command.cardHolder(),command.cvc(),command.methodPay());
             var updatedProfile = paymentRepository.save(paymentToUpdated);
             return Optional.of(updatedProfile);
         } catch (Exception e){
