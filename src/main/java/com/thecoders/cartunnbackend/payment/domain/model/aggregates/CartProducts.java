@@ -12,6 +12,7 @@ import lombok.Getter;
 @Entity
 @Table(name = "cart_product")
 public class CartProducts extends AuditableAbstractAggregateRoot<CartProducts> {
+
     @Column(name = "cart_id", nullable = false)
     Long cartId;
     @Column(name = "product_id", nullable = false)
