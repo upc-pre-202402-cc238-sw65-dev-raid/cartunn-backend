@@ -17,16 +17,18 @@ public class CartunnBackendApplication {
     }
 
     @Configuration
-    public static class Myconfiguration{
+    public static class Myconfiguration {
         @Bean
         public WebMvcConfigurer corsConfigurer() {
             return new WebMvcConfigurer() {
                 @Override
                 public void addCorsMappings(CorsRegistry registry) {
                     registry.addMapping("/**")
-                            .allowedOrigins("https://cartunn-frontend.netlify.app", "http://localhost:4200", "https://cartunnbackend.up.railway.app/swagger-ui/index.html#")
-                            .allowedMethods("HEAD","GET", "POST", "PUT", "DELETE","PATCH")
-                            .allowedHeaders("*");
+                            .allowedOrigins("https://cartunn-frontend.netlify.app", "http://localhost:4200", "https://cartunnbackend.up.railway.app/swagger-ui/index.html")
+                            .allowedMethods("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH")
+                            .allowedHeaders("*")
+                            .allowCredentials(true)
+                    ;
                 }
             };
         }
