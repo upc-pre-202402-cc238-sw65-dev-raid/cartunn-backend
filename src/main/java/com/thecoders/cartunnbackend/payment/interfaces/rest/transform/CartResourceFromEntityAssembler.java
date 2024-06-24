@@ -5,6 +5,7 @@ import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.CartResour
 
 public class CartResourceFromEntityAssembler {
     public static CartResource toResourceFromEntity(Cart entity) {
-        return new CartResource(entity.getId(), entity.getTotal());
+
+        return new CartResource(entity.getId(), entity.getTotal(),entity.getPayment(),entity.getAssignedProducts());
     }
 }

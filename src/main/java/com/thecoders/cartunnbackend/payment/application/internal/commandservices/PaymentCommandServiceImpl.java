@@ -3,6 +3,8 @@ package com.thecoders.cartunnbackend.payment.application.internal.commandservice
 
 import com.thecoders.cartunnbackend.payment.domain.model.aggregates.Payment;
 import com.thecoders.cartunnbackend.payment.domain.model.commands.CreatePaymentCommand;
+import com.thecoders.cartunnbackend.payment.domain.model.commands.DeleteCartCommand;
+import com.thecoders.cartunnbackend.payment.domain.model.commands.DeletePaymentCommand;
 import com.thecoders.cartunnbackend.payment.domain.model.commands.UpdatePaymentCommand;
 import com.thecoders.cartunnbackend.payment.domain.services.PaymentCommandService;
 import com.thecoders.cartunnbackend.payment.infrastructure.persistence.jpa.repositories.PaymentRepository;
@@ -19,9 +21,6 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
     @Override
     public Long handle(CreatePaymentCommand command) {
-        if (paymentRepository.existsByCardHolder(command.cardHolder())) {
-            throw new IllegalArgumentException("Payment with title " + command.cardHolder() + " already exists");
-        }
         var payment = new Payment(command);
         try {
             paymentRepository.save(payment);
@@ -34,9 +33,9 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
 
     @Override
     public Optional<Payment> handle(UpdatePaymentCommand command){
-        if(paymentRepository.existsByCardHolderAndIdIsNot(command.cardHolder(), command.paymentId())){
+        /*if(paymentRepository.existsByCardHolderAndIdIsNot(command.cardHolder(), command.paymentId())){
             throw new IllegalArgumentException("Profile with same payment already exists");
-        }
+        }*/
         var result = paymentRepository.findById(command.paymentId());
         if (result.isEmpty()){
             throw new IllegalArgumentException("Payment does not exist");
@@ -48,6 +47,17 @@ public class PaymentCommandServiceImpl implements PaymentCommandService {
             return Optional.of(updatedProfile);
         } catch (Exception e){
             throw new IllegalArgumentException("Error while updating payment: " + e.getMessage());
+        }
+    }
+    @Override
+    public void handle(DeletePaymentCommand command) {
+        if (!paymentRepository.existsById(command.PaymentId())) {
+            throw new IllegalArgumentException("Cart does not exist");
+        }
+        try {
+            paymentRepository.deleteById(command.PaymentId());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while deleting cart: " + e.getMessage());
         }
     }
 }

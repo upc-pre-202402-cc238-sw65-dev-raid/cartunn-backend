@@ -1,6 +1,6 @@
 package com.thecoders.cartunnbackend.payment.interfaces.rest.resources;
 
-public record CreatePaymentResource(Long paymentId,
+public record CreatePaymentResource(
                                     String cardNumber,
                                     String expirationDate,
                                     String cardHolder,

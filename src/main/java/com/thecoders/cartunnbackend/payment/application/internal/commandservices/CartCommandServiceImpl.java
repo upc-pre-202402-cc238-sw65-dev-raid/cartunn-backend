@@ -28,13 +28,14 @@ public class CartCommandServiceImpl implements CartCommandService {
     }
     @Override
     public Optional<Cart> handle(UpdateCartCommand command) {
-        if (cartRepository.existsByTotalAndIdIsNot(command.total(), command.id()))
-            throw new IllegalArgumentException("Cart with same title already exists");
+        /*if (cartRepository.existsByTotalAndIdIsNot(command.total(), command.id()))
+            throw new IllegalArgumentException("Cart with same price and id already exists");*/
         var result = cartRepository.findById(command.id());
         if (result.isEmpty()) throw new IllegalArgumentException("Cart does not exist");
         var cartToUpdate = result.get();
         try {
-            var updatedCart = cartRepository.save(cartToUpdate.updateInformation(command.total()));
+            var updatedCart = cartRepository.save(cartToUpdate.updateInformation(command.total(),
+                    command.payment(),command.products()));
             return Optional.of(updatedCart);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while updating cart: " + e.getMessage());

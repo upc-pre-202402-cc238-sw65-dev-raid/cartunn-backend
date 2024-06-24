@@ -5,6 +5,6 @@ import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.UpdateCart
 
 public class UpdateCartCommandFromResourceAssembler {
     public static UpdateCartCommand toCommandFromResource(Long cartId, UpdateCartResource resource) {
-        return new UpdateCartCommand(cartId, resource.total());
+        return new UpdateCartCommand(cartId, resource.total(),resource.payment(),resource.products());
     }
 }

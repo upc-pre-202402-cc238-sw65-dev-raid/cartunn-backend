@@ -11,38 +11,41 @@ import java.util.Set;
 
 @Getter
 @Entity
-@Table(name = "cart")
 public class Cart extends AuditableAbstractAggregateRoot<Cart>{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-    @Getter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id")
-    private Payment paymentId;
+    private Payment payment;
     @Column(name = "total", nullable = false)
     private BigDecimal total;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "cart_product",
     joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> assignedProducts= new HashSet<>();
     public Cart() {
         this.total = BigDecimal.ZERO;
+        this.payment = new Payment();
     }
 
-    public Cart(BigDecimal total) {
+    public Cart(BigDecimal total, Payment payment,Set<Product> products) {
         this();
         this.total = total;
+        this.payment=payment;
+        this.assignedProducts=products;
+
     }
     public Cart(CreateCartCommand command) {
         this();
         this.total = command.total();
+        this.payment=command.payment();
+        this.assignedProducts=command.products();
     }
-    public Cart updateInformation(BigDecimal total) {
+    public Cart updateInformation(BigDecimal total, Payment payment,Set<Product> products) {
         this.total = total;
+        this.payment=payment;
+        //for(int i=0;i<products.size())
+        this.assignedProducts=products;
         return this;
     }
 }

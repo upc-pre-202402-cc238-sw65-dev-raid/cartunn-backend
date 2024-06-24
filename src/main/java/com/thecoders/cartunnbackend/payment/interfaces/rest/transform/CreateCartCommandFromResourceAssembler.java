@@ -5,6 +5,6 @@ import com.thecoders.cartunnbackend.payment.interfaces.rest.resources.CreateCart
 
 public class CreateCartCommandFromResourceAssembler {
     public static CreateCartCommand toCommandFromResource(CreateCartResource resource) {
-        return new CreateCartCommand(resource.total());
+        return new CreateCartCommand(resource.total(),resource.payment(),resource.products());
     }
 }
