@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface CartQueryService {
     Optional<Cart> handle(GetCartByIdQuery query);
-
     List<Cart> handle(GetAllCartsQuery query);
 }
