@@ -28,7 +28,7 @@ public class OpenApiConfiguration {
                         .url("https://cartunn-backend.wiki.github.io/docs"));
 
         // Add Security Scheme
-        final String securitySchemeName = "bearerAuth";
+        /*final String securitySchemeName = "bearerAuth";
         openApi.addSecurityItem(
                         new SecurityRequirement()
                                 .addList(securitySchemeName))
@@ -39,7 +39,7 @@ public class OpenApiConfiguration {
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT")));
-        // Return OpenAPI configuration object
+        // Return OpenAPI configuration object*/
         return openApi;
     }
 }
