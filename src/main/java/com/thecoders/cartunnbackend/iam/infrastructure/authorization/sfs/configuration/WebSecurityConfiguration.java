@@ -67,12 +67,12 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // CORS default configuration
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
         http.cors(configurer -> configurer.configurationSource(sec -> {
-            var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(List.of("*"));
-            cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-            cors.setAllowedHeaders(List.of("*"));
-            return cors;
+            corsConfiguration.setAllowedOrigins(List.of("*"));
+            corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+            corsConfiguration.setAllowedHeaders(List.of("*"));
+            return corsConfiguration;
         }));
         http.csrf(csrfConfigurer -> csrfConfigurer.disable())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
