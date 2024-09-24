@@ -14,15 +14,4 @@ public class CartunnBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(CartunnBackendApplication.class, args);
     }
-
-    @Configuration
-    public static class WebConfig implements WebMvcConfigurer {
-        @Override
-        public void addCorsMappings(CorsRegistry registry){
-            registry.addMapping("/**")
-                    .allowedOrigins("https://cartunn.up.railway.app/**", "http://cartunn.up.railway.app/**")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                    .allowedHeaders("*");
-        }
-    }
 }
