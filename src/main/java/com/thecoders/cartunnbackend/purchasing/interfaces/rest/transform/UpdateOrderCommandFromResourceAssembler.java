@@ -5,6 +5,6 @@ import com.thecoders.cartunnbackend.purchasing.interfaces.rest.resources.UpdateO
 
 public class UpdateOrderCommandFromResourceAssembler {
     public static UpdateOrderCommand toCommandFromResource(Long orderId, UpdateOrderResource resource) {
-        return new UpdateOrderCommand(orderId, resource.name(), resource.description(), resource.code(), resource.entryDate(), resource.exitDate(), resource.status());
+        return new UpdateOrderCommand(orderId, resource.name(), resource.description(), resource.code(), resource.entryDate(), resource.exitDate(), resource.status(), resource.imageUrl());
     }
 }
