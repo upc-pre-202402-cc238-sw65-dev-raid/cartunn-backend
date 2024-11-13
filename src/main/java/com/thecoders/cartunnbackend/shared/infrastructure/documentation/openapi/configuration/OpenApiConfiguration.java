@@ -34,7 +34,7 @@ public class OpenApiConfiguration {
         //Servers
         openApi.servers(List.of(
                 new Server().url("http://localhost:8080").description("Development Server"),
-                new Server().url("https://cartunn.up.railway.app").description("Production Server")
+                new Server().url("https://xddd.up.railway.app").description("Production Server")
         ));
 
         // Add Security Scheme
