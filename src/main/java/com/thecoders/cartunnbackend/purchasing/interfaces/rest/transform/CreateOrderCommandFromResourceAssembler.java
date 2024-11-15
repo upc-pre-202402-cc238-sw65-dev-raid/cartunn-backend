@@ -6,6 +6,6 @@ import com.thecoders.cartunnbackend.purchasing.interfaces.rest.resources.CreateO
 public class CreateOrderCommandFromResourceAssembler {
 
     public static CreateOrderCommand toCommandFromResource(CreateOrderResource resource) {
-        return new CreateOrderCommand(resource.name(), resource.description(), resource.code(), resource.entryDate(), resource.exitDate(), resource.status());
+        return new CreateOrderCommand(resource.name(), resource.description(), resource.code(), resource.entryDate(), resource.exitDate(), resource.status(), resource.imageUrl());
     }
 }

@@ -14,4 +14,20 @@ public class CartunnBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(CartunnBackendApplication.class, args);
     }
+
+    @Configuration
+    public static class MyConfiguration {
+        @Bean
+        public WebMvcConfigurer corsConfigurer() {
+            return new WebMvcConfigurer() {
+                @Override
+                public void addCorsMappings(CorsRegistry registry) {
+                    registry.addMapping("/**")
+                            .allowedOrigins("*")
+                            .allowedMethods("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH")
+                            .allowedHeaders("*");
+                }
+            };
+        }
+    }
 }

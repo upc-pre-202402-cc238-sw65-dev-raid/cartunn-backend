@@ -1,7 +1,6 @@
 package com.thecoders.cartunnbackend.purchasing.domain.model.aggregates;
 
 import com.thecoders.cartunnbackend.purchasing.domain.model.commands.CreateOrderCommand;
-import com.thecoders.cartunnbackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
@@ -16,24 +15,20 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "name", nullable = false)
     private String name;
-
     @Column(name = "description", nullable = false)
     private String description;
-
     @Column(name = "code", nullable = false, length = 4)
     private int code;
-
     @Column(name = "entry_date", nullable = false)
     private LocalDate entryDate;
-
     @Column(name = "exit_date", nullable = false)
     private LocalDate exitDate;
-
     @Column(name = "status", nullable = false)
     private String status;
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 
     public Order() {
         this.name = Strings.EMPTY;
@@ -42,9 +37,18 @@ public class Order {
         this.entryDate = LocalDate.now();
         this.exitDate = LocalDate.now();
         this.status = Strings.EMPTY;
+        this.imageUrl = Strings.EMPTY;
     }
 
-    public Order(String order, String description, int code, LocalDate entryDate, LocalDate exitDate, String status) {
+    public Order(
+            String order,
+            String description,
+            int code,
+            LocalDate entryDate,
+            LocalDate exitDate,
+            String status,
+            String imageUrl
+    ) {
         this();
         this.name = order;
         this.description = description;
@@ -52,6 +56,7 @@ public class Order {
         this.entryDate = entryDate;
         this.exitDate = exitDate;
         this.status = status;
+        this.imageUrl = imageUrl;
     }
 
     public Order(CreateOrderCommand command) {
@@ -64,13 +69,14 @@ public class Order {
         this.status = command.status();
     }
 
-    public Order updateInformation(String order, String description, int code, LocalDate entryDate, LocalDate exitDate, String status) {
+    public Order updateInformation(String order, String description, int code, LocalDate entryDate, LocalDate exitDate, String status, String imageUrl) {
         this.name = order;
         this.description = description;
         this.code = code;
         this.entryDate = entryDate;
         this.exitDate = exitDate;
         this.status = status;
+        this.imageUrl = imageUrl;
         return this;
     }
 }
