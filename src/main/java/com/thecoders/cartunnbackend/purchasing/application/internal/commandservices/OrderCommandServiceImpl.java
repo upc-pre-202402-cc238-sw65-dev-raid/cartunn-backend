@@ -43,7 +43,7 @@ public class OrderCommandServiceImpl implements OrderCommandService {
         }
         var orderToUpdate = result.get();
         try {
-            orderToUpdate.updateInformation(command.name(), command.description(), command.code(), command.entryDate(), command.exitDate(), command.status(), command.imageUrl());
+            orderToUpdate.updateInformation(command.name(), command.description(), command.code(), command.entryDate(), command.exitDate(), command.status());
             var updatedOrder = purchasingOrderRepository.save(orderToUpdate);
             return Optional.of(updatedOrder);
         } catch (Exception e) {
